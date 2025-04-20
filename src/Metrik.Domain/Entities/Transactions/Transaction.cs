@@ -73,6 +73,17 @@ namespace Metrik.Domain.Entities.Transactions
         /// </summary>
         public DateTime Date { get; private set; }
 
+        /// <summary>
+        /// Creates a new transaction and updates the account balance accordingly.
+        /// </summary>
+        /// <param name="account">The account associated with the transaction.</param>
+        /// <param name="categoryId">The unique identifier for the category associated with the transaction.</param>
+        /// <param name="amount">The amount of money involved in the transaction.</param>
+        /// <param name="type">The type of the transaction (e.g., income or expense).</param>
+        /// <param name="description">The description of the transaction.</param>
+        /// <param name="date">The date of the transaction.</param>
+        /// <param name="transactionService">The transaction service used to calculate the new balance.</param>
+        /// <returns>The created transaction or an error if the transaction could not be created.</returns>
         public static Result<Transaction> Create(
             Account account,
             Guid categoryId,
@@ -98,12 +109,13 @@ namespace Metrik.Domain.Entities.Transactions
             }
 
             // Update the account balance
+            var accountBalance = account.Balance;
             account.Balance = newBalance;
             account.UpdatedAt = date;
 
             // Raise a domain event for transaction creation
-            transaction.RaiseDomainEvent(new TransactionCreatedDomainEvent(transaction.Id));
-            transaction.RaiseDomainEvent(new AccountUpdatedDomainEvent(account.Id, account.Balance));
+            transaction.RaiseDomainEvent(new TransactionCreatedDomainEvent(transaction.Id, account.Id, transaction.Amount, transaction.Type));
+            transaction.RaiseDomainEvent(new AccountUpdatedDomainEvent(account.Id, accountBalance, account.Balance));
 
             return Result.Success(transaction);
         }
