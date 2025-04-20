@@ -45,7 +45,21 @@ namespace Metrik.Mediator
             var options = new MediatorOptions();
             configureOptions(options);
 
-            // Register the mediator
+            services.AddScoped<ISender, Sender>(sp =>
+            {
+                return new Sender(
+                    sp.GetService,
+                    t => sp.GetServices(t)
+                );
+            });
+
+            services.AddScoped<IPublisher, Publisher>(sp =>
+            {
+                return new Publisher(
+                    t => sp.GetServices(t)
+                );
+            });
+
             services.AddScoped<IMediator, Mediator>(sp =>
             {
                 return new Mediator(
@@ -54,13 +68,13 @@ namespace Metrik.Mediator
                 );
             });
 
-            // Register handlers from the configured assemblies
+            // Register request and notification handlers from the specified assemblies
             foreach (var assembly in options.Assemblies)
             {
                 RegisterHandlersFromAssembly(services, assembly);
             }
 
-            // Register global behaviors
+            // Register behaviors
             foreach (var behavior in options.Behaviors)
             {
                 services.AddScoped(behavior.InterfaceType, behavior.ImplementationType);

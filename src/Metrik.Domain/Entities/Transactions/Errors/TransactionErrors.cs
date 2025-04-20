@@ -47,6 +47,9 @@ namespace Metrik.Domain.Entities.Transactions.Errors
             "Errors.Transaction.Unauthorized"
         );
 
+        /// <summary>
+        /// Error indicating that a transaction is in progress for the specified account.
+        /// </summary>
         public static readonly Error Concurrency = new(
             "Transaction.Concurrency",
             "A transaction for the specified account is already in progress.",

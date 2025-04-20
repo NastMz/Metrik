@@ -12,9 +12,9 @@ namespace Metrik.Infrastructure.Messaging
     public class DomainEventDispatcher : IDomainEventDispatcher
     {
         /// <summary>
-        /// The mediator used to publish domain events.
+        /// The publisher used to publish domain event notifications.
         /// </summary>
-        private readonly IMediator _mediator;
+        private readonly IPublisher _publisher;
 
         /// <summary>
         /// The logger used for logging domain event dispatching information.
@@ -24,11 +24,11 @@ namespace Metrik.Infrastructure.Messaging
         /// <summary>
         /// Initializes a new instance of the <see cref="DomainEventDispatcher"/> class.
         /// </summary>
-        /// <param name="mediator">The mediator used to publish domain events.</param>
+        /// <param name="publisher">The publisher used to publish domain event notifications.</param>
         /// <param name="logger">The logger used for logging domain event dispatching information.</param>
-        public DomainEventDispatcher(IMediator mediator, ILogger<DomainEventDispatcher> logger)
+        public DomainEventDispatcher(IPublisher publisher, ILogger<DomainEventDispatcher> logger)
         {
-            _mediator = mediator;
+            _publisher = publisher;
             _logger = logger;
         }
 
@@ -48,7 +48,7 @@ namespace Metrik.Infrastructure.Messaging
 
                     if (notification != null)
                     {
-                        await _mediator.Publish(notification, cancellationToken);
+                        await _publisher.Publish(notification, cancellationToken);
                     }
                     else
                     {
