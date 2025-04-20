@@ -21,21 +21,21 @@ namespace Metrik.Domain.Abstractions.Interfaces
         /// </summary>
         /// <param name="entity">Entity to add.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+        void Add(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates an existing entity.
         /// </summary>
         /// <param name="entity">Entity to update.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+        void Update(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes an entity.
         /// </summary>
         /// <param name="entity">Entity to delete.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
+        void Delete(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Checks if an entity with the specified identifier exists.

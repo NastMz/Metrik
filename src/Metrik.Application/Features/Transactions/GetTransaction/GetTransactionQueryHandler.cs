@@ -36,6 +36,7 @@ namespace Metrik.Application.Features.Transactions.GetTransaction
                     user_id as UserId,
                     category_id as CategoryId,
                     amount as Amount,
+                    currency as Currency,
                     type as Type,
                     description as Description,
                     date as Date

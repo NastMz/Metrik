@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Metrik.Application.Abstractions.Interfaces.Behaviors;
+using Metrik.Application.Abstractions.Behaviors;
 using Metrik.Domain.Entities.Transactions.Services;
 using Metrik.Mapping;
 using Metrik.Mediator;

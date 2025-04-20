@@ -3,7 +3,7 @@ using Metrik.Application.Abstractions.Interfaces.Messaging;
 using Metrik.Application.Exceptions;
 using Metrik.Mediator.Interfaces;
 
-namespace Metrik.Application.Abstractions.Interfaces.Behaviors
+namespace Metrik.Application.Abstractions.Behaviors
 {
     /// <summary>
     /// Validation behavior for commands.
@@ -31,7 +31,7 @@ namespace Metrik.Application.Abstractions.Interfaces.Behaviors
         /// <param name="next">The delegate for the next handler in the pipeline.</param>
         /// <param name="cancellationToken">The cancellation token to monitor for cancellation requests.</param>
         /// <returns>A task representing the asynchronous operation, with the response as the result if successful.</returns>
-        /// <exception cref="Exceptions.ValidationException">Thrown when validation fails.</exception>
+        /// <exception cref="ValidationException">Thrown when validation fails.</exception>
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (!_validators.Any())

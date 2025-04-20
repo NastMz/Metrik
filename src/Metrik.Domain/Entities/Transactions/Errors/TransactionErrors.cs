@@ -46,5 +46,12 @@ namespace Metrik.Domain.Entities.Transactions.Errors
             ErrorType.Unauthorized,
             "Errors.Transaction.Unauthorized"
         );
+
+        public static readonly Error Concurrency = new(
+            "Transaction.Concurrency",
+            "A transaction for the specified account is already in progress.",
+            ErrorType.Conflict,
+            "Errors.Transaction.Concurrency"
+        );
     }
 }

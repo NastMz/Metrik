@@ -1,5 +1,6 @@
 ﻿using Metrik.Application.Abstractions.Interfaces.Clock;
 using Metrik.Application.Abstractions.Interfaces.Messaging;
+using Metrik.Application.Exceptions;
 using Metrik.Domain.Abstractions.Interfaces;
 using Metrik.Domain.Abstractions.Models;
 using Metrik.Domain.Entities.Accounts.Errors;
@@ -7,6 +8,7 @@ using Metrik.Domain.Entities.Accounts.Repository;
 using Metrik.Domain.Entities.Categories.Errors;
 using Metrik.Domain.Entities.Categories.Repository;
 using Metrik.Domain.Entities.Transactions;
+using Metrik.Domain.Entities.Transactions.Errors;
 using Metrik.Domain.Entities.Transactions.Repository;
 using Metrik.Domain.Entities.Transactions.Services;
 using Metrik.Domain.Entities.Users.Errors;
@@ -86,28 +88,35 @@ namespace Metrik.Application.Features.Transactions.CreateTransaction
                 return Result.Failure<Guid>(CategoryErrors.NotFound);
             }
 
-            var transaction = Transaction.Create(
-                account,
-                request.CategoryId,
-                new Money(request.Amount, account.Currency),
-                request.Type,
-                request.Description,
-                _dateTimeProvider.UtcNow,
-                _transactionService
-            );
-
-            if (transaction.IsFailure)
+            try
             {
-                return Result.Failure<Guid>(transaction.Error);
+                var transaction = Transaction.Create(
+                    account,
+                    request.CategoryId,
+                    new Money(request.Amount, account.Balance.Currency),
+                    request.Type,
+                    request.Description,
+                    _dateTimeProvider.UtcNow,
+                    _transactionService
+                );
+
+                if (transaction.IsFailure)
+                {
+                    return Result.Failure<Guid>(transaction.Error);
+                }
+
+                _transactionRepository.Add(transaction.Value, cancellationToken);
+
+                _accountRepository.Update(account, cancellationToken);
+
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                return transaction.Value.Id;
             }
-
-            await _transactionRepository.AddAsync(transaction.Value, cancellationToken);
-
-            await _accountRepository.UpdateAsync(account, cancellationToken);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return transaction.Value.Id;
+            catch (ConcurrencyException)
+            {
+                return Result.Failure<Guid>(TransactionErrors.Concurrency);
+            }
         }
     }
 }

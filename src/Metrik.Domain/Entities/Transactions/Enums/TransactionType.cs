@@ -5,8 +5,19 @@
     /// </summary>
     public enum TransactionType
     {
-        Income,
-        Expense,
-        Transfer
+        /// <summary>
+        /// Indicates that the transaction is an income.
+        /// </summary>
+        Income = 1,
+
+        /// <summary>
+        /// Indicates that the transaction is an expense.
+        /// </summary>
+        Expense = 2,
+
+        /// <summary>
+        /// Indicates that the transaction is a transfer between accounts.
+        /// </summary>
+        Transfer = 3
     }
 }

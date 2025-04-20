@@ -31,9 +31,14 @@
         public decimal Amount { get; init; }
 
         /// <summary>
-        /// The type of the transaction (e.g., income or expense).
+        /// The currency of the transaction amount.
         /// </summary>
-        public string Type { get; init; }
+        public string Currency { get; init; }
+
+        /// <summary>
+        /// The type of the transaction from <see cref="Domain.Entities.Transactions.Enums.TransactionType"/>.
+        /// </summary>
+        public int Type { get; init; }
 
         /// <summary>
         /// The description of the transaction.

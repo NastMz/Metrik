@@ -16,14 +16,12 @@ namespace Metrik.Domain.Entities.Accounts
         /// <param name="userId">The unique identifier for the user associated with the account.</param>
         /// <param name="name">The name of the account.</param>
         /// <param name="balance">The balance of the account.</param>
-        /// <param name="currency">The currency of the account.</param>
-        public Account(Guid id, Guid userId, AccountName name, AccountType type, Money balance, Currency currency) : base(id)
+        public Account(Guid id, Guid userId, AccountName name, AccountType type, Money balance) : base(id)
         {
             UserId = userId;
             Name = name;
             Type = type;
             Balance = balance;
-            Currency = currency;
         }
 
         /// <summary>
@@ -45,10 +43,5 @@ namespace Metrik.Domain.Entities.Accounts
         /// Balance of the account.
         /// </summary>
         public Money Balance { get; internal set; }
-
-        /// <summary>
-        /// Currency of the account.
-        /// </summary>
-        public Currency Currency { get; private set; }
     }
 }
