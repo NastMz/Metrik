@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Metrik.Application.Abstractions.Interfaces.Mediator;
 using Metrik.Application.Abstractions.Interfaces.Messaging;
 using Metrik.Application.Exceptions;
+using Metrik.Mediator.Interfaces;
 
 namespace Metrik.Application.Abstractions.Interfaces.Behaviors
 {

@@ -19,6 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Metrik.Domain\Metrik.Domain.csproj" />
+    <ProjectReference Include="..\Metrik.Mapping\Metrik.Mapping.csproj" />
+    <ProjectReference Include="..\Metrik.Mediator\Metrik.Mediator.csproj" />
   </ItemGroup>
 
 </Project>

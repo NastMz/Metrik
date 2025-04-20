@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrik.Domain", "src\Metrik.Domain\Metrik.Domain.csproj", "{B9FDC356-860C-47EE-901A-C4B5CAEAB7A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrik.Application", "src\Metrik.Application\Metrik.Application.csproj", "{F024FE95-0EEE-4D6E-B8F7-82DA67091982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrik.Infrastructure", "src\Metrik.Infrastructure\Metrik.Infrastructure.csproj", "{912F3129-AEB9-B268-236C-E61D58C9FAC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrik.Mediator", "src\Metrik.Mediator\Metrik.Mediator.csproj", "{59EB04AD-0F6F-42E3-8AA7-F77EDE3EFDE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrik.Mapping", "src\Metrik.Mapping\Metrik.Mapping.csproj", "{1B853DE4-4AD5-4AD4-804C-3CA28B33C09E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +31,18 @@ Global
 		{F024FE95-0EEE-4D6E-B8F7-82DA67091982}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F024FE95-0EEE-4D6E-B8F7-82DA67091982}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F024FE95-0EEE-4D6E-B8F7-82DA67091982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912F3129-AEB9-B268-236C-E61D58C9FAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912F3129-AEB9-B268-236C-E61D58C9FAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912F3129-AEB9-B268-236C-E61D58C9FAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912F3129-AEB9-B268-236C-E61D58C9FAC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59EB04AD-0F6F-42E3-8AA7-F77EDE3EFDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59EB04AD-0F6F-42E3-8AA7-F77EDE3EFDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59EB04AD-0F6F-42E3-8AA7-F77EDE3EFDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59EB04AD-0F6F-42E3-8AA7-F77EDE3EFDE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B853DE4-4AD5-4AD4-804C-3CA28B33C09E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B853DE4-4AD5-4AD4-804C-3CA28B33C09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B853DE4-4AD5-4AD4-804C-3CA28B33C09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B853DE4-4AD5-4AD4-804C-3CA28B33C09E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +50,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B9FDC356-860C-47EE-901A-C4B5CAEAB7A0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{F024FE95-0EEE-4D6E-B8F7-82DA67091982} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{912F3129-AEB9-B268-236C-E61D58C9FAC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{59EB04AD-0F6F-42E3-8AA7-F77EDE3EFDE7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1B853DE4-4AD5-4AD4-804C-3CA28B33C09E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCE36F7-20B5-469A-887E-382C93925461}

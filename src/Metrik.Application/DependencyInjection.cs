@@ -1,5 +1,9 @@
 ﻿using FluentValidation;
+using Metrik.Application.Abstractions.Interfaces.Behaviors;
 using Metrik.Domain.Entities.Transactions.Services;
+using Metrik.Mapping;
+using Metrik.Mediator;
+using Metrik.Mediator.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Metrik.Application
@@ -18,7 +22,17 @@ namespace Metrik.Application
         {
             services.AddTransient<TransactionService>();
 
+            services.AddMediator(options =>
+            {
+                options.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly);
+
+                options.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+                options.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            });
+
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+
+            services.AddMapper();
 
             return services;
         }
