@@ -20,15 +20,15 @@ namespace Metrik.Mediator
         private readonly Func<Type, IEnumerable<object>> _multiInstanceFactory;
 
         /// <summary>
-        /// Cache for request handlers.
+        /// Cache for handler metadata, not handler instances.
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, RequestHandlerBase> _requestHandlers = new();
+        private static readonly ConcurrentDictionary<Type, HandlerMetadata> _handlersMetadata = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Sender"/> class.
         /// </summary>
         /// <param name="singleInstanceFactory">The factory to create single instances of handlers.</param>
-        /// <param name="multiInstanceFactory"></param>
+        /// <param name="multiInstanceFactory">The factory to create multiple instances of handlers.</param>
         public Sender(Func<Type, object?> singleInstanceFactory, Func<Type, IEnumerable<object>> multiInstanceFactory)
         {
             _singleInstanceFactory = singleInstanceFactory;
@@ -36,10 +36,10 @@ namespace Metrik.Mediator
         }
 
         /// <inheritdoc />
-        public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        public async Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
         {
-            return Send(request, typeof(TResponse), cancellationToken)
-                .ContinueWith(t => (TResponse)t.Result!, cancellationToken);
+            var result = await Send(request, typeof(TResponse), cancellationToken);
+            return (TResponse)result;
         }
 
         /// <inheritdoc />
@@ -93,37 +93,56 @@ namespace Metrik.Mediator
         private Task<object?> Send(object request, Type responseType, CancellationToken cancellationToken)
         {
             var requestType = request.GetType();
-            var handler = GetHandler(requestType, responseType);
+            var metadata = GetHandlerMetadata(requestType, responseType);
+
+            // Create a new handler instance for each request
+            var handler = CreateHandler(metadata, requestType, responseType);
 
             return handler.Handle(request, cancellationToken);
         }
 
         /// <summary>
-        /// Gets the request handler for the specified request and response types.
+        /// Gets the handler metadata for the specified request and response types.
         /// </summary>
+        /// <param name="requestType">Type of the request</param>
+        /// <param name="responseType">Type of the response</param>
+        /// <returns>The handler metadata</returns>
+        private HandlerMetadata GetHandlerMetadata(Type requestType, Type responseType)
+        {
+            return _handlersMetadata.GetOrAdd(requestType, capturedRequestType =>
+            {
+                var handlerInterfaceType = typeof(IRequestHandler<,>).MakeGenericType(capturedRequestType, responseType);
+                var handlerWrapperType = typeof(RequestHandlerWrapper<,>).MakeGenericType(capturedRequestType, responseType);
+                var behaviorsType = typeof(IPipelineBehavior<,>).MakeGenericType(capturedRequestType, responseType);
+
+                return new HandlerMetadata
+                {
+                    HandlerInterfaceType = handlerInterfaceType,
+                    HandlerWrapperType = handlerWrapperType,
+                    BehaviorsType = behaviorsType
+                };
+            });
+        }
+
+        /// <summary>
+        /// Creates a handler instance for the specified request and response types.
+        /// </summary>
+        /// <param name="metadata">The handler metadata</param>
         /// <param name="requestType">Type of the request</param>
         /// <param name="responseType">Type of the response</param>
         /// <returns>The request handler</returns>
         /// <exception cref="InvalidOperationException">If no handler is registered for the request type</exception>
-        private RequestHandlerBase GetHandler(Type requestType, Type responseType)
+        private RequestHandlerBase CreateHandler(HandlerMetadata metadata, Type requestType, Type responseType)
         {
-            var handlerType = typeof(RequestHandlerWrapper<,>).MakeGenericType(requestType, responseType);
-            var key = requestType;
+            var handler = _singleInstanceFactory(metadata.HandlerInterfaceType) ??
+                throw new InvalidOperationException($"No handler registered for {requestType.Name} with response type {responseType.Name}");
 
-            return _requestHandlers.GetOrAdd(key, _ =>
-            {
-                var handlerInterfaceType = typeof(IRequestHandler<,>).MakeGenericType(requestType, responseType);
-                var handler = _singleInstanceFactory(handlerInterfaceType) ?? throw new InvalidOperationException(
-                        $"No handler registered for {requestType.Name} with response type {responseType.Name}");
+            var behaviors = _multiInstanceFactory(metadata.BehaviorsType);
 
-                var behaviorsType = typeof(IPipelineBehavior<,>).MakeGenericType(requestType, responseType);
-                var behaviors = _multiInstanceFactory(behaviorsType);
-
-                return (RequestHandlerBase)Activator.CreateInstance(
-                    handlerType,
-                    handler,
-                    behaviors)!;
-            });
+            return (RequestHandlerBase)Activator.CreateInstance(
+                metadata.HandlerWrapperType,
+                handler,
+                behaviors)!;
         }
 
         /// <summary>
@@ -157,5 +176,26 @@ namespace Metrik.Mediator
                 ? throw new InvalidOperationException($"{requestType.Name} does not implement IStreamRequest<T>")
                 : requestInterface.GetGenericArguments()[0];
         }
+    }
+
+    /// <summary>
+    /// Metadata about handler types, used for caching.
+    /// </summary>
+    internal class HandlerMetadata
+    {
+        /// <summary>
+        /// Gets or sets the handler interface type.
+        /// </summary>
+        public Type HandlerInterfaceType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the handler wrapper type.
+        /// </summary>
+        public Type HandlerWrapperType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the behaviors type.
+        /// </summary>
+        public Type BehaviorsType { get; set; }
     }
 }

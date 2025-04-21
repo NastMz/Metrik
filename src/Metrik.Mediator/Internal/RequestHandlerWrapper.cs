@@ -7,6 +7,12 @@ namespace Metrik.Mediator.Internal
     /// </summary>
     internal abstract class RequestHandlerBase
     {
+        /// <summary>
+        /// Handles the request.
+        /// </summary>
+        /// <param name="request">The request to handle</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        /// <returns>The response of the request</returns>
         public abstract Task<object?> Handle(object request, CancellationToken cancellationToken);
     }
 
