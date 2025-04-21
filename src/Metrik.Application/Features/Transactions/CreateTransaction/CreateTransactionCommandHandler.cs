@@ -8,9 +8,11 @@ using Metrik.Domain.Entities.Accounts.Repository;
 using Metrik.Domain.Entities.Categories.Errors;
 using Metrik.Domain.Entities.Categories.Repository;
 using Metrik.Domain.Entities.Transactions;
+using Metrik.Domain.Entities.Transactions.Enums;
 using Metrik.Domain.Entities.Transactions.Errors;
 using Metrik.Domain.Entities.Transactions.Repository;
 using Metrik.Domain.Entities.Transactions.Services;
+using Metrik.Domain.Entities.Transactions.ValueObjects;
 using Metrik.Domain.Entities.Users.Errors;
 using Metrik.Domain.Entities.Users.Repository;
 using Metrik.Domain.Shared.ValueObjects;
@@ -94,8 +96,8 @@ namespace Metrik.Application.Features.Transactions.CreateTransaction
                     account,
                     request.CategoryId,
                     new Money(request.Amount, account.Balance.Currency),
-                    request.Type,
-                    request.Description,
+                    (TransactionType)request.Type,
+                    new TransactionDescription(request.Description),
                     _dateTimeProvider.UtcNow,
                     _transactionService
                 );

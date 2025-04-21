@@ -21,6 +21,13 @@ namespace Metrik.Domain.Entities.Users
         }
 
         /// <summary>
+        /// Default constructor for the User class.
+        /// </summary>
+        private User()
+        {
+        }
+
+        /// <summary>
         /// First name of the user.
         /// </summary>
         public FirstName FirstName { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using Metrik.Domain.Abstractions.Models;
+using Metrik.Domain.Entities.Accounts.Enums;
 using Metrik.Domain.Entities.Accounts.ValueObjects;
 using Metrik.Domain.Shared.ValueObjects;
 
@@ -22,6 +23,13 @@ namespace Metrik.Domain.Entities.Accounts
             Name = name;
             Type = type;
             Balance = balance;
+        }
+
+        /// <summary>
+        /// Default constructor for the Account class.
+        /// </summary>
+        private Account()
+        {
         }
 
         /// <summary>

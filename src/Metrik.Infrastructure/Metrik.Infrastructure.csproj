@@ -8,16 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Metrik.Application\Metrik.Application.csproj" />
     <ProjectReference Include="..\Metrik.Domain\Metrik.Domain.csproj" />
+    <ProjectReference Include="..\Metrik.Resources\Metrik.Resources.csproj" />
   </ItemGroup>
 
 </Project>

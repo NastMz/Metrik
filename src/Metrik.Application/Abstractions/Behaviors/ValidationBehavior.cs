@@ -45,7 +45,7 @@ namespace Metrik.Application.Abstractions.Behaviors
                 .Select(v => v.Validate(context))
                 .Where(r => r.Errors.Count > 0)
                 .SelectMany(r => r.Errors)
-                .Select(e => new ValidationError(e.PropertyName, e.ErrorMessage))
+                .Select(e => new ValidationError(e.PropertyName.ToLowerInvariant(), e.ErrorMessage))
                 .ToList();
 
             if (validationResults.Count != 0)

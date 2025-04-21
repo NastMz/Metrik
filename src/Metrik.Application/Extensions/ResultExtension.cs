@@ -35,7 +35,7 @@ namespace Metrik.Application.Extensions
         }
 
         /// <summary>
-        /// Converts a successful result into a 200 OK response.
+        /// Converts a result into an appropriate HTTP response.
         /// </summary>
         public static IActionResult ToActionResult<T>(
             this Result<T> result,

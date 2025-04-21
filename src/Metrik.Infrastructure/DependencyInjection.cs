@@ -2,14 +2,21 @@
 using Metrik.Application.Abstractions.Interfaces.Clock;
 using Metrik.Application.Abstractions.Interfaces.Data;
 using Metrik.Application.Abstractions.Interfaces.Email;
+using Metrik.Application.Abstractions.Interfaces.Localization;
+using Metrik.Application.Abstractions.Interfaces.Messaging;
 using Metrik.Domain.Abstractions.Interfaces;
 using Metrik.Infrastructure.Clock;
 using Metrik.Infrastructure.Data;
 using Metrik.Infrastructure.Email;
+using Metrik.Infrastructure.Localization;
+using Metrik.Infrastructure.Messaging;
 using Metrik.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 namespace Metrik.Infrastructure
 {
@@ -46,6 +53,10 @@ namespace Metrik.Infrastructure
 
             SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
 
+            services.AddLocalizationServices(configuration);
+
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+
             return services;
         }
 
@@ -72,6 +83,45 @@ namespace Metrik.Infrastructure
                     services.AddScoped(iface, type);
                 }
             }
+
+            return services;
+        }
+
+        /// <summary>
+        /// Configures localization services.
+        /// </summary>
+        /// <param name="services">Service collection.</param>
+        /// <param name="configuration">Application configuration.</param>
+        /// <returns>Updated service collection.</returns>
+        private static IServiceCollection AddLocalizationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Configure localization options
+            services.Configure<LocalizationOptions>(options =>
+            {
+                options.DefaultLanguage = configuration["Localization:DefaultLanguage"] ?? "en";
+                options.SupportedLanguages = configuration.GetSection("Localization:SupportedLanguages")
+                    .Get<List<string>>() ?? ["en", "es"];
+            });
+
+            // Add base .NET Core localization
+            services.AddLocalization(options => options.ResourcesPath = "");
+
+            // Register custom service
+            services.AddSingleton<ILocalizationService, LocalizationService>();
+
+            // Configure supported cultures
+            var supportedCultures = (configuration.GetSection("Localization:SupportedLanguages")
+                .Get<List<string>>() ?? new List<string> { "en", "es" })
+                .Select(c => new CultureInfo(c))
+                .ToArray();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture(
+                    configuration["Localization:DefaultLanguage"] ?? "en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
             return services;
         }

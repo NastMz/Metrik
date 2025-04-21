@@ -1,16 +1,23 @@
 ﻿namespace Metrik.Application.Abstractions.Interfaces.Localization
 {
     /// <summary>
-    /// Provides localization services for the application.
+    /// Service for localizing text strings.
     /// </summary>
     public interface ILocalizationService
     {
         /// <summary>
-        /// Gets a localized string for the specified key.
+        /// Retrieves a localized string based on the provided key.
         /// </summary>
-        /// <param name="key">The localization key.</param>
-        /// <param name="defaultValue">The default value if the key is not found.</param>
-        /// <returns>The localized string.</returns>
+        /// <param name="key">Localization key.</param>
+        /// <param name="defaultValue">Default value if the key is not found.</param>
+        /// <returns>Localized string.</returns>
         string GetLocalizedString(string key, string defaultValue);
+
+        /// <summary>
+        /// Sets the language for the current context.
+        /// </summary>
+        /// <param name="languageCode">Language code (e.g., "es", "en").</param>
+        /// <returns>True if the language was successfully set.</returns>
+        bool SetLanguage(string languageCode);
     }
 }

@@ -32,10 +32,17 @@ namespace Metrik.Domain.Entities.Transactions
             UserId = userId;
             AccountId = accountId;
             CategoryId = categoryId;
-            Amount = amount;
+            Value = amount;
             Type = type;
             Description = description;
             Date = date;
+        }
+
+        /// <summary>
+        /// Default constructor for the Transaction class.
+        /// </summary>
+        private Transaction()
+        {
         }
 
         /// <summary>
@@ -56,7 +63,7 @@ namespace Metrik.Domain.Entities.Transactions
         /// <summary>
         /// The amount of money involved in the transaction.
         /// </summary>
-        public Money Amount { get; private set; }
+        public Money Value { get; private set; }
 
         /// <summary>
         /// The type of the transaction (e.g., income or expense).
@@ -114,7 +121,7 @@ namespace Metrik.Domain.Entities.Transactions
             account.UpdatedAt = date;
 
             // Raise a domain event for transaction creation
-            transaction.RaiseDomainEvent(new TransactionCreatedDomainEvent(transaction.Id, account.Id, transaction.Amount, transaction.Type));
+            transaction.RaiseDomainEvent(new TransactionCreatedDomainEvent(transaction.Id, account.Id, transaction.Value, transaction.Type));
             transaction.RaiseDomainEvent(new AccountUpdatedDomainEvent(account.Id, accountBalance, account.Balance));
 
             return Result.Success(transaction);

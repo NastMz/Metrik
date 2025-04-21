@@ -17,7 +17,7 @@ namespace Metrik.Infrastructure.Configurations
 
             builder.HasKey(t => t.Id);
 
-            builder.OwnsOne(t => t.Amount, amountBuilder =>
+            builder.OwnsOne(t => t.Value, amountBuilder =>
             {
                 amountBuilder.Property(a => a.Currency)
                     .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
@@ -28,7 +28,7 @@ namespace Metrik.Infrastructure.Configurations
                 .HasConversion<int>();
 
             builder.Property(t => t.Description)
-                .HasMaxLength(500)
+                .HasMaxLength(200)
                 .HasConversion(description => description.Value, value => new TransactionDescription(value));
 
             builder.Property(t => t.Date);

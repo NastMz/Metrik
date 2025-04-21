@@ -30,7 +30,7 @@ namespace Metrik.Application.Features.Transactions.CreateTransaction
         public Task Handle(DomainEventNotification<TransactionCreatedDomainEvent> notification, CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Transaction created: {TransactionId}, AccountId: {AccountId}, Amount: {Amount}, Type: {Type}",
+                "Transaction created: {TransactionId}, AccountId: {AccountId}, Value: {Value}, Type: {Type}",
                 notification.DomainEvent.TransactionId,
                 notification.DomainEvent.AccountId,
                 notification.DomainEvent.Amount,

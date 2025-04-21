@@ -15,18 +15,18 @@ namespace Metrik.Domain.Entities.Transactions.Services
         /// <exception cref="InvalidOperationException">Thrown when the currency of the account and transaction do not match.</exception>
         public Money CalculateBalanceAfterTransaction(Account account, Transaction transaction)
         {
-            if (account.Balance.Currency != transaction.Amount.Currency)
+            if (account.Balance.Currency != transaction.Value.Currency)
             {
                 throw new InvalidOperationException("Currency mismatch between account and transaction.");
             }
 
             if (transaction.Type == TransactionType.Income)
             {
-                return account.Balance + transaction.Amount;
+                return account.Balance + transaction.Value;
             }
             else if (transaction.Type == TransactionType.Expense || transaction.Type == TransactionType.Transfer)
             {
-                return account.Balance - transaction.Amount;
+                return account.Balance - transaction.Value;
             }
 
             return account.Balance;

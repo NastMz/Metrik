@@ -23,6 +23,13 @@ namespace Metrik.Domain.Entities.Categories
         }
 
         /// <summary>
+        /// Default constructor for the Category class.
+        /// </summary>
+        private Category()
+        {
+        }
+
+        /// <summary>
         /// The unique identifier for the user who owns the category.
         /// </summary>
         public Guid UserId { get; private set; }

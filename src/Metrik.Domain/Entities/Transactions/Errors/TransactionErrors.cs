@@ -31,7 +31,7 @@ namespace Metrik.Domain.Entities.Transactions.Errors
         /// Error indicating that the transaction amount is invalid.
         /// </summary>
         public static readonly Error InvalidAmount = new(
-            "Transaction.Amount",
+            "Transaction.Value",
             "The transaction amount is invalid.",
             ErrorType.Validation,
             "Errors.Transaction.InvalidAmount"
@@ -55,6 +55,23 @@ namespace Metrik.Domain.Entities.Transactions.Errors
             "A transaction for the specified account is already in progress.",
             ErrorType.Conflict,
             "Errors.Transaction.Concurrency"
+        );
+
+        /// <summary>
+        /// Error indicating that the transaction type is invalid.
+        /// </summary>
+        public static readonly Error InvalidTransactionType = new(
+            "Transaction.InvalidType",
+            "The transaction type is invalid.",
+            ErrorType.Validation,
+            "Errors.Transaction.InvalidType"
+        );
+
+        public static readonly Error InvalidDescription = new(
+            "Transaction.InvalidDescription",
+            "The transaction description is invalid.",
+            ErrorType.Validation,
+            "Errors.Transaction.InvalidDescription"
         );
     }
 }

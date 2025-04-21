@@ -47,24 +47,29 @@ namespace Metrik.Mapping
         {
             return AddMapper(services, config =>
             {
+                bool profilesFound = false;
+
                 // Find all Profile classes in the specified assemblies
                 foreach (var assembly in assemblies)
                 {
                     var profileTypes = assembly.GetTypes()
                         .Where(t => typeof(Profile).IsAssignableFrom(t) &&
-                                    !t.IsAbstract &&
-                                    t.GetConstructor(Type.EmptyTypes) != null);
+                                   !t.IsAbstract &&
+                                   t.GetConstructor(Type.EmptyTypes) != null);
 
                     foreach (var profileType in profileTypes)
                     {
-                        // Create an instance of the profile and ensure it is not null
-                        var profileInstance = Activator.CreateInstance(profileType) as Profile;
-                        if (profileInstance != null)
-                        {
-                            // Add profile to configuration
-                            config.AddProfile(profileInstance);
-                        }
+                        // Add profile to configuration
+                        config.AddProfile(Activator.CreateInstance(profileType) as Profile);
+                        profilesFound = true;
                     }
+                }
+
+                // Add a default empty mapping if no profiles found
+                if (!profilesFound)
+                {
+                    // Add a dummy/empty mapping to prevent validation error
+                    config.CreateMap<object, object>();
                 }
             });
         }

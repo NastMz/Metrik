@@ -25,7 +25,7 @@ namespace Metrik.Infrastructure.Configurations
 
             builder.Property(a => a.Type)
                 .HasMaxLength(100)
-                .HasConversion(type => type.ToString(), value => new AccountType(value));
+                .HasConversion<int>();
 
             builder.OwnsOne(a => a.Balance, balanceBuilder =>
             {

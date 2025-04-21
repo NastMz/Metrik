@@ -22,6 +22,13 @@ namespace Metrik.Domain.Abstractions.Models
         }
 
         /// <summary>
+        /// Default constructor for the Entity class.
+        /// </summary>
+        protected Entity()
+        {
+        }
+
+        /// <summary>
         /// The unique identifier for the entity.
         /// </summary>
         public Guid Id { get; init; }
