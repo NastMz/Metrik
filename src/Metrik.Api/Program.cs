@@ -30,6 +30,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseLocalization();
+
 app.UseAuthorization();
 
 app.UseCustomExceptionHandler();

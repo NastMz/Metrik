@@ -1,5 +1,6 @@
 ﻿using Metrik.Api.Middleware;
 using Metrik.Infrastructure;
+using Metrik.Infrastructure.Localization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Metrik.Api.Extensions
@@ -29,6 +30,15 @@ namespace Metrik.Api.Extensions
         public static void UseCustomExceptionHandler(this IApplicationBuilder app)
         {
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+        }
+
+        /// <summary>
+        /// Configures the application to use a localization middleware.
+        /// </summary>
+        /// <param name="app">The application builder.</param>
+        public static IApplicationBuilder UseLocalization(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<LocalizationMiddleware>();
         }
     }
 }
