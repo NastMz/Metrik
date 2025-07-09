@@ -22,7 +22,7 @@ if (app.Environment.IsDevelopment())
         options.WithTitle("Metrik API");
     });
 
-    app.ApplyMigrations();
+    //app.ApplyMigrations();
 
     // Uncomment the following line to seed data for development purposes
     //app.SeedData();

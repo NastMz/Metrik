@@ -2,9 +2,9 @@
 using Metrik.Application.Abstractions.Behaviors;
 using Metrik.Domain.Entities.Transactions.Services;
 using Metrik.Mapping;
-using Metrik.Mediator;
-using Metrik.Mediator.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Nast.SimpleMediator;
+using Nast.SimpleMediator.Abstractions;
 
 namespace Metrik.Application
 {

@@ -2,7 +2,7 @@
 using Metrik.Application.Extensions;
 using Metrik.Application.Features.Transactions.CreateTransaction;
 using Metrik.Application.Features.Transactions.GetTransaction;
-using Metrik.Mediator.Interfaces;
+using Nast.SimpleMediator.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Metrik.Api.Controllers.Transactions
