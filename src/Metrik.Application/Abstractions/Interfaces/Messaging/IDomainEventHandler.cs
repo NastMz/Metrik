@@ -1,6 +1,6 @@
 ﻿using Metrik.Application.Abstractions.Models;
 using Metrik.Domain.Abstractions.Interfaces;
-using Metrik.Mediator.Interfaces;
+using Nast.SimpleMediator.Abstractions;
 
 namespace Metrik.Application.Abstractions.Interfaces.Messaging
 {

@@ -15,12 +15,12 @@
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+    <PackageReference Include="Nast.SimpleMediator" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Metrik.Domain\Metrik.Domain.csproj" />
     <ProjectReference Include="..\Metrik.Mapping\Metrik.Mapping.csproj" />
-    <ProjectReference Include="..\Metrik.Mediator\Metrik.Mediator.csproj" />
   </ItemGroup>
 
 </Project>
