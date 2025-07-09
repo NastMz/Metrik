@@ -22,7 +22,7 @@ if (app.Environment.IsDevelopment())
         options.WithTitle("Metrik API");
     });
 
-    //app.ApplyMigrations();
+    //app.ApplyMigrations(); // Migrations are disabled in development to avoid unintended database changes. Uncomment if migrations need to be applied.
 
     // Uncomment the following line to seed data for development purposes
     //app.SeedData();
